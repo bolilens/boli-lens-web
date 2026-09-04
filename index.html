@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Boli Lens — lentes con estilo. Compra con pago al recibir en Lima. Envíos a todo el Perú.">
+<title>Boli Lens | Dale estilo a tu mirada</title>
+<style>
+:root{
+  --bg:#050505; --panel:#111111; --panel2:#171717; --text:#fff;
+  --muted:#b9b9b9; --salmon:#ff806d; --salmon2:#ff9a88;
+  --line:#2a2a2a; --green:#25D366;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,Helvetica,sans-serif}
+a{color:inherit;text-decoration:none}
+button,input,select,textarea{font:inherit}
+.container{width:min(1180px,92%);margin:auto}
+header{position:sticky;top:0;z-index:20;background:rgba(5,5,5,.94);backdrop-filter:blur(12px);border-bottom:1px solid #1b1b1b}
+.nav{min-height:76px;display:flex;align-items:center;gap:28px}
+.nav-logo{height:58px;width:auto;object-fit:contain}
+.nav-links{display:flex;gap:25px;align-items:center;margin-left:auto}
+.nav-links a{font-size:14px;color:#eee}
+.nav-links a:hover{color:var(--salmon)}
+.wa-top{display:flex;align-items:center;gap:8px;color:var(--salmon);font-weight:700;white-space:nowrap}
+.hero{padding:34px 0 28px}
+.hero-card{display:grid;grid-template-columns:1fr 1.08fr;gap:20px;align-items:center;min-height:520px;border:1px solid #222;border-radius:28px;overflow:hidden;background:radial-gradient(circle at 80% 30%,#291916 0,#0b0b0b 42%,#050505 75%)}
+.hero-copy{padding:52px}
+.kicker{color:var(--salmon);font-size:14px;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+.hero h1{font-size:clamp(44px,6vw,78px);line-height:.95;margin:13px 0 18px;letter-spacing:-.05em}
+.hero h1 span{color:var(--salmon)}
+.hero p{font-size:18px;line-height:1.55;color:#ddd;max-width:540px}
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}
+.btn{border:0;border-radius:13px;padding:15px 20px;font-weight:800;cursor:pointer;transition:.2s;display:inline-flex;align-items:center;justify-content:center;gap:8px}
+.btn-primary{background:var(--salmon);color:#090909}
+.btn-primary:hover{background:var(--salmon2);transform:translateY(-1px)}
+.btn-dark{background:#151515;border:1px solid #363636;color:#fff}
+.hero-image{height:100%;min-height:520px;display:flex;align-items:center;justify-content:center;padding:25px}
+.hero-image img{width:100%;height:100%;max-height:500px;object-fit:contain;filter:drop-shadow(0 22px 38px rgba(255,128,109,.12))}
+.benefits{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:#303030;border:1px solid #303030;border-radius:20px;overflow:hidden;margin:20px 0 55px}
+.benefit{background:#111;padding:22px}
+.benefit strong{display:block;color:var(--salmon);margin-bottom:7px}
+.benefit span{color:#ddd;font-size:14px;line-height:1.4}
+.section-title{text-align:center;margin:20px 0 26px}
+.section-title h2{font-size:clamp(30px,5vw,44px);margin:0}
+.section-title h2 span{color:var(--salmon)}
+.section-title p{color:#aaa;margin:9px 0}
+.delivery{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:0 0 52px}
+.delivery-card{border:1px solid var(--line);background:linear-gradient(145deg,#151515,#0d0d0d);padding:25px;border-radius:18px}
+.delivery-card h3{margin:0 0 10px;color:var(--salmon)}
+.delivery-card .price{font-size:26px;font-weight:900}
+.delivery-card ul{margin:14px 0 0;padding-left:18px;color:#ddd;line-height:1.65}
+.catalog{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.product{background:#0e0e0e;border:1px solid #292929;border-radius:18px;overflow:hidden;display:flex;flex-direction:column}
+.product-img{height:220px;background:#f3f3f3;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.product-img img{width:100%;height:100%;object-fit:contain}
+.product-gallery{position:relative;width:100%;height:100%}
+.product-gallery img{display:block;width:100%;height:100%;object-fit:contain}
+.gallery-btn{position:absolute;top:50%;transform:translateY(-50%);width:34px;height:34px;border:1px solid rgba(0,0,0,.18);border-radius:50%;background:rgba(255,255,255,.9);color:#111;font-size:20px;line-height:1;cursor:pointer;z-index:2}
+.gallery-btn.prev{left:8px}.gallery-btn.next{right:8px}
+.gallery-dots{position:absolute;left:50%;bottom:8px;transform:translateX(-50%);display:flex;gap:6px;z-index:2}
+.gallery-dot{width:7px;height:7px;border-radius:50%;background:#aaa;border:0;padding:0;cursor:pointer}.gallery-dot.active{background:var(--salmon);transform:scale(1.2)}
+.gallery-placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:5px;color:#555;font-size:12px}
+.product-body{padding:18px;display:flex;flex-direction:column;flex:1}
+.product-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+.product h3{margin:0;font-size:18px}
+.price{color:var(--salmon);font-size:21px;font-weight:900;white-space:nowrap}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0 16px}
+.tag{font-size:11px;color:#ddd;border:1px solid #383838;border-radius:99px;padding:5px 8px}
+.product ul{padding-left:17px;margin:0 0 18px;color:#cfcfcf;font-size:13px;line-height:1.55;flex:1}
+.product .btn{width:100%;font-size:13px;padding:13px 12px}
+.placeholder .product-img{background:linear-gradient(135deg,#101010,#191919);color:#666;font-size:46px}
+.placeholder .product-body{min-height:210px}
+.notice{margin:24px 0 0;border:1px dashed #454545;border-radius:14px;padding:15px;color:#bbb;text-align:center;font-size:13px}
+.faq{margin:65px 0}
+.faq-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+details{background:#111;border:1px solid #292929;border-radius:13px;padding:16px}
+summary{cursor:pointer;font-weight:800}
+details p{color:#bbb;line-height:1.55}
+footer{margin-top:70px;border-top:1px solid #242424;padding:32px 0 90px;color:#999}
+.footer-inner{display:flex;justify-content:space-between;gap:20px;align-items:center}
+.footer-brand{display:flex;align-items:center;gap:14px}
+.footer-brand img{height:50px}
+.float-wa{position:fixed;right:18px;bottom:18px;z-index:15;width:58px;height:58px;border-radius:50%;background:var(--green);color:#061008;display:flex;align-items:center;justify-content:center;font-size:25px;box-shadow:0 10px 30px #000}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.78);z-index:50;display:none;align-items:center;justify-content:center;padding:16px}
+.modal.open{display:flex}
+.modal-card{width:min(560px,100%);max-height:92vh;overflow:auto;background:#101010;border:1px solid #363636;border-radius:22px;padding:25px;box-shadow:0 25px 80px #000}
+.modal-head{display:flex;justify-content:space-between;gap:15px;align-items:flex-start}
+.modal-head h2{margin:0;font-size:25px}
+.close{background:#1d1d1d;color:#fff;border:1px solid #333;border-radius:10px;width:40px;height:40px;cursor:pointer}
+.selected{margin:15px 0;background:#171717;border:1px solid #303030;border-radius:13px;padding:13px;display:flex;justify-content:space-between;gap:12px}
+form{display:grid;gap:13px}
+label{font-size:13px;font-weight:800;color:#ddd}
+input,select,textarea{width:100%;margin-top:6px;background:#080808;color:#fff;border:1px solid #393939;border-radius:10px;padding:13px;outline:none}
+input:focus,select:focus,textarea:focus{border-color:var(--salmon)}
+textarea{min-height:80px;resize:vertical}
+.radio-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.radio{border:1px solid #3a3a3a;border-radius:12px;padding:13px;cursor:pointer}
+.radio input{width:auto;margin:0 7px 0 0}
+.radio.selected-radio{border-color:var(--salmon);background:#1a1211}
+.total-box{background:#171717;border-radius:13px;padding:15px;border:1px solid #2e2e2e}
+.total-line{display:flex;justify-content:space-between;gap:15px;margin:5px 0;color:#ccc}
+.total-line strong{color:#fff}
+.total-main{font-size:20px;color:var(--salmon);font-weight:900;border-top:1px solid #333;padding-top:10px;margin-top:10px}
+.payment-note{font-size:12px;color:#aaa;line-height:1.45}
+.form-error{color:#ff8d7b;font-size:12px;display:none}
+.order-success{position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:60;display:none;align-items:center;justify-content:center;padding:18px}
+.order-success.open{display:flex}
+.success-card{width:min(440px,100%);background:#111;border:1px solid #383838;border-radius:22px;padding:30px;text-align:center;box-shadow:0 25px 80px #000}
+.success-icon{font-size:44px;margin-bottom:10px}.success-card h2{margin:0 0 8px;color:var(--salmon)}.success-card p{color:#ddd;line-height:1.5}.success-card .btn{margin-top:12px;width:100%}
+@media(max-width:980px){
+  .catalog{grid-template-columns:repeat(2,1fr)}
+  .benefits{grid-template-columns:repeat(2,1fr)}
+  .hero-card{grid-template-columns:1fr}
+  .hero-copy{padding:36px}
+  .hero-image{min-height:330px}
+  .delivery{grid-template-columns:1fr}
+}
+@media(max-width:700px){
+  .nav{min-height:68px}
+  .nav-logo{height:49px}
+  .nav-links{display:none}
+  .wa-top{margin-left:auto;font-size:12px}
+  .hero{padding-top:14px}
+  .hero-card{border-radius:18px;min-height:0}
+  .hero-copy{padding:30px 22px}
+  .hero h1{font-size:48px}
+  .hero p{font-size:16px}
+  .hero-image{min-height:250px;padding:10px}
+  .benefits{grid-template-columns:1fr 1fr;margin-bottom:38px}
+  .benefit{padding:15px}
+  .benefit strong{font-size:13px}
+  .benefit span{font-size:12px}
+  .catalog{grid-template-columns:1fr}
+  .product-img{height:245px}
+  .faq-grid{grid-template-columns:1fr}
+  .footer-inner{flex-direction:column;align-items:flex-start}
+  .radio-row{grid-template-columns:1fr}
+}
+
+/* Portada nueva Boli Lens: foto conceptual de jóvenes + logo original */
+.hero{padding:20px 0 28px}
+.hero-card{display:block;position:relative;min-height:0;height:clamp(520px,56vw,780px);border:1px solid #222;border-radius:24px;overflow:hidden;background:#050505}
+.hero-visual{position:absolute;inset:0;overflow:hidden}
+.hero-visual img{width:100%;height:100%;object-fit:cover;object-position:center;display:block;animation:heroKenBurns 12s ease-in-out infinite alternate}
+.hero-shade{position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.60) 0%,rgba(0,0,0,.18) 42%,rgba(0,0,0,.05) 75%,rgba(0,0,0,.18) 100%),linear-gradient(0deg,rgba(0,0,0,.28),transparent 40%);pointer-events:none}
+.hero-original-logo{position:absolute;left:28px;top:24px;width:210px;padding:6px;background:#000;border-radius:10px;z-index:3;box-shadow:0 12px 35px rgba(0,0,0,.35)}
+.hero-original-logo img{display:block;width:100%;height:auto}
+.hero-copy{position:absolute;left:42px;bottom:44px;z-index:3;padding:0;max-width:460px}
+.hero-copy .kicker{display:none}
+.hero-copy h1,.hero-copy p{display:none}
+.hero-actions{margin:0}
+.hero-actions .btn-primary{font-size:15px;padding:15px 24px;box-shadow:0 10px 28px rgba(0,0,0,.3)}
+.hero-actions .btn-dark{display:none}
+@keyframes heroKenBurns{0%{transform:scale(1)}100%{transform:scale(1.055)}}
+@media(max-width:700px){
+  .hero-card{height:500px;border-radius:16px}
+  .hero-original-logo{left:14px;top:14px;width:150px}
+  .hero-copy{left:18px;bottom:22px}
+  .hero-actions .btn-primary{font-size:13px;padding:12px 18px}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container nav">
+    <a href="#inicio"><img class="nav-logo" src="assets/logo-boli-lens.jpeg" alt="Boli Lens"></a>
+    <nav class="nav-links">
+      <a href="#inicio">INICIO</a>
+      <a href="#catalogo">CATÁLOGO</a>
+      <a href="#envios">¿CÓMO COMPRAR?</a>
+      <a href="#preguntas">PREGUNTAS</a>
+    </nav>
+    <a class="wa-top" href="https://wa.me/51902117217" target="_blank" rel="noopener">◉ +51 902 117 217</a>
+  </div>
+</header>
+
+<main>
+<section id="inicio" class="hero container">
+  <div class="hero-card">
+    <div class="hero-visual">
+      <img src="assets/portada-bolilens-final.png" alt="Jóvenes luciendo lentes Boli Lens">
+      <div class="hero-shade"></div>
+    </div>
+    <div class="hero-original-logo" aria-label="Logo original Boli Lens">
+      <img src="assets/logo-boli-lens.jpeg" alt="Boli Lens — Dale estilo a tu mirada">
+    </div>
+    <div class="hero-copy">
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#catalogo">VER CATÁLOGO</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="benefits">
+    <div class="benefit"><strong>💳 PAGA AL RECIBIR</strong><span>En Lima pagas los lentes cuando llegan a tu casa.</span></div>
+    <div class="benefit"><strong>🚚 ENVÍOS</strong><span>Lima S/11 · Provincias S/13.50.</span></div>
+    <div class="benefit"><strong>💬 PEDIDO POR WHATSAPP</strong><span>Tu pedido llega con todos tus datos listos.</span></div>
+    <div class="benefit"><strong>✨ BOLI LENS</strong><span>Dale estilo a tu mirada.</span></div>
+  </div>
+</section>
+
+<section id="envios" class="container">
+  <div class="section-title">
+    <h2>Compra <span>sin confusiones</span></h2>
+    <p>Elige tu zona de entrega para saber cómo funciona el pago.</p>
+  </div>
+  <div class="delivery">
+    <div class="delivery-card">
+      <h3>📍 LIMA</h3>
+      <div class="price">Envío S/11</div>
+      <ul>
+        <li>Pagas S/11 por el envío.</li>
+        <li>El costo de los lentes lo pagas <strong>al recibir</strong>.</li>
+        <li>En el formulario se mostrará cuánto pagarás ahora y cuánto al recibir.</li>
+      </ul>
+    </div>
+    <div class="delivery-card">
+      <h3>📦 PROVINCIAS</h3>
+      <div class="price">Envío S/13.50</div>
+      <ul>
+        <li>El envío cuesta S/13.50.</li>
+        <li>El pedido es con <strong>pago total por adelantado</strong>.</li>
+        <li>El formulario calculará el total: lentes + envío.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="catalogo" class="container">
+  <div class="section-title">
+    <h2>Nuestro <span>catálogo</span></h2>
+    <p>Modelos disponibles y espacios preparados para los próximos lanzamientos.</p>
+  </div>
+
+  <div class="catalog">
+    <article class="product">
+      <div class="product-img"><div class="product-gallery" data-images="assets/blackly.jpg||assets/blackly-2.jpg||assets/blackly-3.jpg" data-alt="Blackly"></div></div>
+      <div class="product-body">
+        <div class="product-top"><h3>BLACKLY</h3><span class="price">S/95</span></div>
+        <div class="tags"><span class="tag">Metálico</span><span class="tag">Sin medida</span></div>
+        <ul><li>Protección UV400</li><li>Fotocromático</li><li>Anti luz azul</li><li>Transparente en interiores</li></ul>
+        <button class="btn btn-primary" onclick="openOrder('BLACKLY',95)">PÍDELO AHORA Y PAGA AL RECIBIR</button>
+      </div>
+    </article>
+
+    <article class="product">
+      <div class="product-img"><div class="product-gallery" data-images="assets/exa-metal.jpg||assets/exa-metal-2.jpg||assets/exa-metal-3.jpg" data-alt="Exa Metal"></div></div>
+      <div class="product-body">
+        <div class="product-top"><h3>EXA METAL</h3><span class="price">S/90</span></div>
+        <div class="tags"><span class="tag">Metálico</span><span class="tag">Sin medida</span></div>
+        <ul><li>Polarizados</li><li>Protección UV400</li><li>Fotocromático</li><li>Lunas se oscurecen bajo el sol</li></ul>
+        <button class="btn btn-primary" onclick="openOrder('EXA METAL',90)">PÍDELO AHORA Y PAGA AL RECIBIR</button>
+      </div>
+    </article>
+
+    <article class="product">
+      <div class="product-img"><div class="product-gallery" data-images="assets/metal-club.jpg||assets/metal-club-2.jpg||assets/metal-club-3.jpg" data-alt="Metal Club"></div></div>
+      <div class="product-body">
+        <div class="product-top"><h3>METAL CLUB</h3><span class="price">S/67</span></div>
+        <div class="tags"><span class="tag">Metálico</span><span class="tag">Sin medida</span></div>
+        <ul><li>Protección anti luz azul</li><li>Ideal para pantallas digitales</li><li>Marco metálico</li></ul>
+        <button class="btn btn-primary" onclick="openOrder('METAL CLUB',67)">PÍDELO AHORA Y PAGA AL RECIBIR</button>
+      </div>
+    </article>
+
+    <article class="product">
+      <div class="product-img"><div class="product-gallery" data-images="assets/grandquar.jpg||assets/grandquar-2.jpg||assets/grandquar-3.jpg" data-alt="GRANDQUAR"></div></div>
+      <div class="product-body">
+        <div class="product-top"><h3>GRANDQUAR</h3><span class="price">S/75</span></div>
+        <div class="tags"><span class="tag">Sin medida</span><span class="tag">Tamaño grande</span></div>
+        <ul><li>Anti luz azul</li><li>Ideal para rostros anchos</li><li>Protección para pantallas digitales</li></ul>
+        <button class="btn btn-primary" onclick="openOrder('GRANDQUAR',75)">PÍDELO AHORA Y PAGA AL RECIBIR</button>
+      </div>
+    </article>
+
+    <article class="product">
+      <div class="product-img"><div class="product-gallery" data-images="assets/africas.jpg||assets/africas-2.jpg||assets/africas-3.jpg" data-alt="AFRICAS"></div></div>
+      <div class="product-body">
+        <div class="product-top"><h3>AFRICAS</h3><span class="price">S/46</span></div>
+        <div class="tags"><span class="tag">Policarbonato</span><span class="tag">Sin medida</span></div>
+        <ul><li>Anti luz azul</li><li>Montura transparente</li></ul>
+        <button class="btn btn-primary" onclick="openOrder('AFRICAS',46)">PÍDELO AHORA Y PAGA AL RECIBIR</button>
+      </div>
+    </article>
+
+    <article class="product">
+      <div class="product-img"><div class="product-gallery" data-images="assets/nfricas.jpg||assets/nfricas-2.jpg||assets/nfricas-3.jpg" data-alt="NFRICAS"></div></div>
+      <div class="product-body">
+        <div class="product-top"><h3>NFRICAS</h3><span class="price">S/46</span></div>
+        <div class="tags"><span class="tag">Niñas y niños</span><span class="tag">Unisex</span></div>
+        <ul><li>Policarbonato transparente</li><li>Sin medida</li><li>Anti luz azul</li></ul>
+        <button class="btn btn-primary" onclick="openOrder('NFRICAS',46)">PÍDELO AHORA Y PAGA AL RECIBIR</button>
+      </div>
+    </article>
+
+    <article class="product">
+      <div class="product-img"><div class="product-gallery" data-images="assets/metalbuh.jpg||assets/metalbuh-2.jpg||assets/metalbuh-3.jpg" data-alt="METALBUH"></div></div>
+      <div class="product-body">
+        <div class="product-top"><h3>METALBUH</h3><span class="price">S/95</span></div>
+        <div class="tags"><span class="tag">Metálico</span><span class="tag">Sin medida</span></div>
+        <ul><li>Liviano</li><li>Lunas amarillas</li><li>Visión nocturna</li><li>Fotocromático · UV400</li></ul>
+        <button class="btn btn-primary" onclick="openOrder('METALBUH',95)">PÍDELO AHORA Y PAGA AL RECIBIR</button>
+      </div>
+    </article>
+
+    <article class="product">
+      <div class="product-img"><div class="product-gallery" data-images="assets/acuarium.jpg||assets/acuarium-2.jpg||assets/acuarium-3.jpg" data-alt="ACUARIUM"></div></div>
+      <div class="product-body">
+        <div class="product-top"><h3>ACUARIUM</h3><span class="price">S/99</span></div>
+        <div class="tags"><span class="tag">Solar</span><span class="tag">Rectangular</span></div>
+        <ul><li>Policarbonato</li><li>Marco robusto</li><li>Protección UV400</li><li>Visión HD · sin distorsión de colores</li></ul>
+        <button class="btn btn-primary" onclick="openOrder('ACUARIUM',99)">PÍDELO AHORA Y PAGA AL RECIBIR</button>
+      </div>
+    </article>
+
+    <article class="product placeholder">
+      <div class="product-img"><div class="gallery-placeholder"><strong>＋</strong><span>3 fotos disponibles</span></div></div>
+      <div class="product-body"><div class="product-top"><h3>PRÓXIMO MODELO</h3><span class="price">—</span></div><ul><li>Espacio reservado para agregar el modelo 9.</li></ul><button class="btn btn-dark" disabled>PRÓXIMAMENTE</button></div>
+    </article>
+
+    <article class="product placeholder">
+      <div class="product-img"><div class="gallery-placeholder"><strong>＋</strong><span>3 fotos disponibles</span></div></div>
+      <div class="product-body"><div class="product-top"><h3>PRÓXIMO MODELO</h3><span class="price">—</span></div><ul><li>Espacio reservado para agregar el modelo 10.</li></ul><button class="btn btn-dark" disabled>PRÓXIMAMENTE</button></div>
+    </article>
+
+    <article class="product placeholder">
+      <div class="product-img"><div class="gallery-placeholder"><strong>＋</strong><span>3 fotos disponibles</span></div></div>
+      <div class="product-body"><div class="product-top"><h3>PRÓXIMO MODELO</h3><span class="price">—</span></div><ul><li>Espacio reservado para un modelo adicional.</li></ul><button class="btn btn-dark" disabled>PRÓXIMAMENTE</button></div>
+    </article>
+  </div>
+  <div class="notice">Cuando tengas las fotos de los demás modelos, se pueden reemplazar estos espacios sin cambiar el sistema de pedidos.</div>
+</section>
+
+<section id="preguntas" class="faq container">
+  <div class="section-title"><h2>Preguntas <span>frecuentes</span></h2></div>
+  <div class="faq-grid">
+    <details><summary>¿Cómo compro en Lima?</summary><p>Elige tu modelo, completa el formulario y envía el pedido por WhatsApp. Pagas S/11 por el envío y el costo de los lentes al recibir.</p></details>
+    <details><summary>¿Cómo compro desde provincia?</summary><p>Seleccionas “Provincia” en el formulario. El pedido se registra como pago total por adelantado: lentes + S/13.50 de envío.</p></details>
+    <details><summary>¿El modelo se agrega solo?</summary><p>Sí. El formulario se abre desde el botón de cada producto y el modelo queda seleccionado automáticamente.</p></details>
+    <details><summary>¿Dónde recibo la confirmación?</summary><p>Al finalizar, WhatsApp se abre con el pedido completo dirigido al número de Boli Lens.</p></details>
+  </div>
+</section>
+</main>
+
+<a class="float-wa" href="https://wa.me/51902117217" target="_blank" rel="noopener" aria-label="WhatsApp">◉</a>
+
+<div class="order-success" id="orderSuccess" aria-hidden="true">
+  <div class="success-card">
+    <div class="success-icon">✅</div>
+    <h2>¡Tu pedido fue enviado!</h2>
+    <p>El formulario se cerró correctamente. WhatsApp se abrió con los datos de tu pedido para continuar la coordinación.</p>
+    <button class="btn btn-primary" type="button" onclick="closeSuccess()">VOLVER AL CATÁLOGO</button>
+  </div>
+</div>
+
+<footer>
+  <div class="container footer-inner">
+    <div class="footer-brand"><img src="assets/logo-boli-lens.jpeg" alt="Boli Lens"><span>Dale estilo a tu mirada.</span></div>
+    <div>WhatsApp: +51 902 117 217</div>
+  </div>
+</footer>
+
+<div class="modal" id="orderModal" aria-hidden="true">
+  <div class="modal-card">
+    <div class="modal-head">
+      <div><h2>Completa tu pedido</h2><p style="color:#aaa;margin:7px 0 0">Te llevaremos a WhatsApp con todos tus datos.</p></div>
+      <button class="close" type="button" onclick="closeOrder()">✕</button>
+    </div>
+    <div class="selected"><strong id="selectedModel">MODELO</strong><span id="selectedPrice" class="price">S/0</span></div>
+
+    <form id="orderForm">
+      <label>Nombre completo
+        <input id="name" required placeholder="Ej. Juan Pérez">
+      </label>
+      <label>Teléfono
+        <input id="phone" required inputmode="tel" placeholder="Ej. 999 999 999">
+      </label>
+      <label>Modelo
+        <input id="model" readonly>
+      </label>
+      <label>Cantidad
+        <input id="qty" type="number" min="1" value="1" required>
+      </label>
+      <div>
+        <label>Zona de entrega</label>
+        <div class="radio-row" style="margin-top:6px">
+          <label class="radio selected-radio"><input type="radio" name="zone" value="Lima" checked onchange="updateTotals()"> Lima — envío S/11</label>
+          <label class="radio"><input type="radio" name="zone" value="Provincia" onchange="updateTotals()"> Provincia — envío S/13.50</label>
+        </div>
+      </div>
+      <label>Dirección exacta
+        <textarea id="address" required placeholder="Calle, número, urbanización, etc."></textarea>
+      </label>
+      <label>Distrito
+        <input id="district" required placeholder="Ej. San Miguel">
+      </label>
+      <label>Provincia
+        <input id="province" required placeholder="Ej. Lima">
+      </label>
+      <label>Referencia
+        <input id="reference" required placeholder="Ej. Frente al parque">
+      </label>
+
+      <div class="total-box">
+        <div class="total-line"><span>Lentes</span><strong id="lensesTotal">S/0</strong></div>
+        <div class="total-line"><span>Envío</span><strong id="shippingTotal">S/11.00</strong></div>
+        <div class="total-line total-main"><span id="paymentLabel">Pagar ahora</span><strong id="payNow">S/11.00</strong></div>
+        <div class="payment-note" id="paymentNote">En Lima: pagas S/11 de envío ahora y los lentes al recibir.</div>
+      </div>
+      <div class="form-error" id="formError">Completa todos los campos para continuar.</div>
+      <button class="btn btn-primary" type="submit">REALIZAR LA COMPRA → WHATSAPP</button>
+    </form>
+  </div>
+</div>
+
+<script>
+
+// Galería de hasta 3 fotos por modelo. Solo hay que colocar los archivos con estos nombres en /assets.
+document.querySelectorAll('.product-gallery').forEach(gallery => {
+  const images = gallery.dataset.images.split('||');
+  const alt = gallery.dataset.alt || 'Modelo Boli Lens';
+  let current = 0;
+  const img = document.createElement('img');
+  img.alt = alt;
+  img.src = images[0];
+  img.onerror = () => {
+    if (current === 0) {
+      gallery.innerHTML = '<div class="gallery-placeholder"><strong>＋</strong><span>Agrega hasta 3 fotos</span></div>';
+    }
+  };
+  gallery.appendChild(img);
+  if (images.length > 1) {
+    const prev = document.createElement('button'); prev.className='gallery-btn prev'; prev.type='button'; prev.setAttribute('aria-label','Foto anterior'); prev.textContent='‹';
+    const next = document.createElement('button'); next.className='gallery-btn next'; next.type='button'; next.setAttribute('aria-label','Foto siguiente'); next.textContent='›';
+    const dots = document.createElement('div'); dots.className='gallery-dots';
+    images.forEach((src,i)=>{ const d=document.createElement('button'); d.type='button'; d.className='gallery-dot'+(i===0?' active':''); d.setAttribute('aria-label','Ver foto '+(i+1)); d.onclick=()=>show(i); dots.appendChild(d); });
+    gallery.append(prev,next,dots);
+    function show(i){ current=(i+images.length)%images.length; img.src=images[current]; img.onerror=()=>{img.onerror=null;}; dots.querySelectorAll('.gallery-dot').forEach((d,j)=>d.classList.toggle('active',j===current)); }
+    prev.onclick=()=>show(current-1); next.onclick=()=>show(current+1);
+  }
+});
+
+const success = document.getElementById('orderSuccess');
+function closeSuccess(){ success.classList.remove('open'); success.setAttribute('aria-hidden','true'); }
+
+let selected = {model:'', price:0};
+const modal = document.getElementById('orderModal');
+
+function openOrder(model, price){
+  selected = {model, price};
+  document.getElementById('selectedModel').textContent = model;
+  document.getElementById('selectedPrice').textContent = 'S/' + price.toFixed(2);
+  document.getElementById('model').value = model;
+  document.getElementById('qty').value = 1;
+  modal.classList.add('open');
+  modal.setAttribute('aria-hidden','false');
+  updateTotals();
+  setTimeout(()=>document.getElementById('name').focus(),100);
+}
+function closeOrder(){
+  modal.classList.remove('open');
+  modal.setAttribute('aria-hidden','true');
+}
+modal.addEventListener('click', e => { if(e.target === modal) closeOrder(); });
+document.addEventListener('keydown', e => { if(e.key === 'Escape') closeOrder(); });
+
+function getZone(){
+  return document.querySelector('input[name="zone"]:checked').value;
+}
+function updateTotals(){
+  const qty = Math.max(1, parseInt(document.getElementById('qty').value || '1'));
+  const lenses = selected.price * qty;
+  const shipping = getZone() === 'Lima' ? 11 : 13.5;
+  document.getElementById('lensesTotal').textContent = 'S/' + lenses.toFixed(2);
+  document.getElementById('shippingTotal').textContent = 'S/' + shipping.toFixed(2);
+  if(getZone() === 'Lima'){
+    document.getElementById('paymentLabel').textContent = 'Pagar ahora';
+    document.getElementById('payNow').textContent = 'S/' + shipping.toFixed(2);
+    document.getElementById('paymentNote').textContent = 'En Lima: pagas S/11 de envío ahora y S/' + lenses.toFixed(2) + ' por los lentes al recibir.';
+  } else {
+    document.getElementById('paymentLabel').textContent = 'Total por adelantado';
+    document.getElementById('payNow').textContent = 'S/' + (lenses + shipping).toFixed(2);
+    document.getElementById('paymentNote').textContent = 'En provincias: pago total por adelantado de lentes + S/13.50 de envío.';
+  }
+}
+document.getElementById('qty').addEventListener('input', updateTotals);
+
+document.getElementById('orderForm').addEventListener('submit', function(e){
+  e.preventDefault();
+  const form = e.currentTarget;
+  if(!form.checkValidity()){
+    document.getElementById('formError').style.display = 'block';
+    form.reportValidity();
+    return;
+  }
+  document.getElementById('formError').style.display = 'none';
+  const name = document.getElementById('name').value.trim();
+  const phone = document.getElementById('phone').value.trim();
+  const qty = Math.max(1, parseInt(document.getElementById('qty').value || '1'));
+  const zone = getZone();
+  const address = document.getElementById('address').value.trim();
+  const district = document.getElementById('district').value.trim();
+  const province = document.getElementById('province').value.trim();
+  const reference = document.getElementById('reference').value.trim();
+  const lenses = selected.price * qty;
+  const shipping = zone === 'Lima' ? 11 : 13.5;
+  const total = lenses + shipping;
+
+  let message = `🛍️ *NUEVO PEDIDO — BOLI LENS*%0A%0A`;
+  message += `*Modelo:* ${selected.model}%0A`;
+  message += `*Cantidad:* ${qty}%0A`;
+  message += `*Precio de lentes:* S/${lenses.toFixed(2)}%0A`;
+  message += `*Envío:* S/${shipping.toFixed(2)}%0A`;
+  message += `*Zona:* ${zone}%0A`;
+  if(zone === 'Lima'){
+    message += `*Paga ahora:* S/${shipping.toFixed(2)}%0A`;
+    message += `*Paga al recibir:* S/${lenses.toFixed(2)}%0A`;
+  } else {
+    message += `*TOTAL POR ADELANTADO:* S/${total.toFixed(2)}%0A`;
+  }
+  message += `%0A*DATOS DEL CLIENTE*%0A`;
+  message += `*Nombre:* ${name}%0A`;
+  message += `*Teléfono:* ${phone}%0A`;
+  message += `*Dirección:* ${address}%0A`;
+  message += `*Distrito:* ${district}%0A`;
+  message += `*Provincia:* ${province}%0A`;
+  message += `*Referencia:* ${reference}%0A%0A`;
+  message += `Quiero confirmar este pedido.`;
+
+  const waWindow = window.open('https://wa.me/51902117217?text=' + message, '_blank', 'noopener');
+  // En la web actual: cerrar formulario y mostrar confirmación. WhatsApp queda abierto en otra pestaña/ventana.
+  closeOrder();
+  success.classList.add('open');
+  success.setAttribute('aria-hidden','false');
+});
+</script>
+</body>
+</html>

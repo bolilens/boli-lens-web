@@ -64,9 +64,16 @@ header{position:sticky;top:0;z-index:20;background:rgba(5,5,5,.94);backdrop-filt
 .gallery-placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:5px;color:#555;font-size:12px}.product-gallery img{cursor:zoom-in}
 .photo-lightbox{position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:100;display:none;align-items:center;justify-content:center;padding:24px}
 .photo-lightbox.open{display:flex}
+.photo-lightbox-content{max-width:94vw;max-height:90vh;display:flex;align-items:center;justify-content:center;position:relative}
 .photo-lightbox img{max-width:94vw;max-height:90vh;width:auto;height:auto;object-fit:contain;border-radius:10px;box-shadow:0 20px 80px rgba(0,0,0,.7);cursor:zoom-out}
-.photo-lightbox-close{position:absolute;top:18px;right:20px;width:46px;height:46px;border:1px solid #555;border-radius:50%;background:rgba(20,20,20,.9);color:#fff;font-size:28px;line-height:1;cursor:pointer}
+.photo-lightbox-close{position:absolute;top:18px;right:20px;width:46px;height:46px;border:1px solid #555;border-radius:50%;background:rgba(20,20,20,.9);color:#fff;font-size:28px;line-height:1;cursor:pointer;z-index:3}
 .photo-lightbox-close:hover{background:#222}
+.photo-lightbox-nav{position:absolute;top:50%;transform:translateY(-50%);width:54px;height:54px;border:1px solid #666;border-radius:50%;background:rgba(20,20,20,.9);color:#fff;font-size:42px;line-height:1;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:3;padding:0}
+.photo-lightbox-nav:hover{background:#333}
+.photo-lightbox-nav.prev{left:20px}
+.photo-lightbox-nav.next{right:20px}
+.photo-lightbox-counter{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);background:rgba(20,20,20,.82);color:#fff;padding:7px 13px;border-radius:999px;font-size:14px;line-height:1;z-index:2}
+@media (max-width:700px){.photo-lightbox{padding:12px}.photo-lightbox-nav{width:44px;height:44px;font-size:34px}.photo-lightbox-nav.prev{left:10px}.photo-lightbox-nav.next{right:10px}.photo-lightbox img{max-width:92vw;max-height:84vh}.photo-lightbox-close{top:10px;right:10px;width:42px;height:42px}}
 .product-body{padding:18px;display:flex;flex-direction:column;flex:1}
 .product-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
 .product h3{margin:0;font-size:18px}
@@ -370,7 +377,12 @@ textarea{min-height:80px;resize:vertical}
 
 <div class="photo-lightbox" id="photoLightbox" aria-hidden="true" role="dialog" aria-label="Vista ampliada de la foto">
   <button class="photo-lightbox-close" type="button" onclick="closePhotoLightbox()" aria-label="Cerrar foto">✕</button>
-  <img id="photoLightboxImg" src="" alt="Foto ampliada">
+  <button class="photo-lightbox-nav prev" id="photoLightboxPrev" type="button" aria-label="Foto anterior">‹</button>
+  <div class="photo-lightbox-content">
+    <img id="photoLightboxImg" src="" alt="Foto ampliada">
+    <div class="photo-lightbox-counter" id="photoLightboxCounter">1 / 1</div>
+  </div>
+  <button class="photo-lightbox-nav next" id="photoLightboxNext" type="button" aria-label="Foto siguiente">›</button>
 </div>
 
 <div class="modal" id="orderModal" aria-hidden="true">
@@ -444,7 +456,7 @@ document.querySelectorAll('.product-gallery').forEach(gallery => {
   gallery.appendChild(img);
   img.addEventListener('click', (e) => {
     e.stopPropagation();
-    openPhotoLightbox(img.src, img.alt);
+    openPhotoLightbox(images, current, img.alt);
   });
   if (images.length > 1) {
     const prev = document.createElement('button'); prev.className='gallery-btn prev'; prev.type='button'; prev.setAttribute('aria-label','Foto anterior'); prev.textContent='‹';
@@ -459,28 +471,69 @@ document.querySelectorAll('.product-gallery').forEach(gallery => {
 
 const photoLightbox = document.getElementById('photoLightbox');
 const photoLightboxImg = document.getElementById('photoLightboxImg');
+const photoLightboxPrev = document.getElementById('photoLightboxPrev');
+const photoLightboxNext = document.getElementById('photoLightboxNext');
+const photoLightboxCounter = document.getElementById('photoLightboxCounter');
 
-function openPhotoLightbox(src, alt){
-  photoLightboxImg.src = src;
-  photoLightboxImg.alt = alt || 'Foto ampliada';
+let lightboxImages = [];
+let lightboxCurrent = 0;
+let lightboxAlt = 'Foto ampliada';
+
+function updatePhotoLightbox(){
+  if(!lightboxImages.length) return;
+  photoLightboxImg.src = lightboxImages[lightboxCurrent];
+  photoLightboxImg.alt = lightboxAlt;
+  photoLightboxCounter.textContent = (lightboxCurrent + 1) + ' / ' + lightboxImages.length;
+  const multiple = lightboxImages.length > 1;
+  photoLightboxPrev.style.display = multiple ? 'flex' : 'none';
+  photoLightboxNext.style.display = multiple ? 'flex' : 'none';
+}
+
+function openPhotoLightbox(images, index, alt){
+  lightboxImages = images || [];
+  lightboxCurrent = Math.max(0, Math.min(Number(index) || 0, lightboxImages.length - 1));
+  lightboxAlt = alt || 'Foto ampliada';
+  updatePhotoLightbox();
   photoLightbox.classList.add('open');
   photoLightbox.setAttribute('aria-hidden','false');
   document.body.style.overflow = 'hidden';
+}
+
+function showPhotoLightbox(index){
+  if(lightboxImages.length < 2) return;
+  lightboxCurrent = (index + lightboxImages.length) % lightboxImages.length;
+  updatePhotoLightbox();
 }
 
 function closePhotoLightbox(){
   photoLightbox.classList.remove('open');
   photoLightbox.setAttribute('aria-hidden','true');
   photoLightboxImg.src = '';
+  lightboxImages = [];
+  lightboxCurrent = 0;
+  photoLightboxCounter.textContent = '1 / 1';
   document.body.style.overflow = '';
 }
+
+photoLightboxPrev.addEventListener('click', e => {
+  e.stopPropagation();
+  showPhotoLightbox(lightboxCurrent - 1);
+});
+
+photoLightboxNext.addEventListener('click', e => {
+  e.stopPropagation();
+  showPhotoLightbox(lightboxCurrent + 1);
+});
 
 photoLightbox.addEventListener('click', e => {
   if(e.target === photoLightbox) closePhotoLightbox();
 });
 
 document.addEventListener('keydown', e => {
+  if(!photoLightbox.classList.contains('open')) return;
   if(e.key === 'Escape') closePhotoLightbox();
+  if(e.key === 'ArrowLeft') showPhotoLightbox(lightboxCurrent - 1);
+  if(e.key === 'ArrowRight') showPhotoLightbox(lightboxCurrent + 1);
 });
 
 const success = document.getElementById('orderSuccess');
